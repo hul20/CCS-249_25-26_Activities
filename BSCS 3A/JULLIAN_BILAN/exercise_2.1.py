@@ -59,17 +59,17 @@ def eliza_response(user_input):
         # c. My feelings towards my crush are invalidated.
         (r"My feelings towards (.*) are (.*)", "Why do you feel your feelings towards {0} are {1}?"),
         # d. You don't understand me OR You do not understand me.
-        (r"You don(?:'t| not) understand me", "What makes you think I don't understand you?"),
+        (r"You do(?:n't| not) understand me", "What makes you think I don't understand you?"),
         # e. I can't focus on my studies OR I cannot focus on my studies.
-        (r"I can(?:'t|not) focus on (.*)", "What do you think is preventing you from focusing on {0}?")
+        (r"I can(?:n't|not) focus on (.*)", "What do you think is preventing you from focusing on {0}?")
     ]
     
     for pattern, response in patterns:
         match = re.match(pattern, user_input, re.IGNORECASE)
-        # print(match)
         if match:
-            print(match.group(1)) # captures the substring after the pattern
-            return response.format(reflect(match.group(1)))
+            # Get all captured groups and reflect them
+            groups = [reflect(g) if g else "" for g in match.groups()]
+            return response.format(*groups)
     
     return "Can you tell me more?"
 
